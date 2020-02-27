@@ -1,3 +1,30 @@
+<?php include 'database.php'; ?>
+<?php session_start(); ?>
+
+<?php 
+//Get total number of questions
+$query = "select * from `questions`";
+$result = $mysqli->query($query) or die($mysqli->error.__LINE__);
+
+$total = $result->num_rows;
+
+//Set question number
+$number = (int) $_GET['n'];
+
+//Get questions
+$query = "select * from `questions` where question_number = $number";
+
+//Get result 
+$result = $mysqli->query($query) or die($mysqli->error.__LINE__);
+$question = $result->fetch_assoc();
+
+
+//Get choices
+$query = "select * from `choices` where question_number = $number";
+
+//Get result 
+$choices = $mysqli->query($query) or die($mysqli->error.__LINE__);
+?>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -16,19 +43,19 @@
         <main>
             <div class="container">
                  <div class="current">
-                     Question 1 of 5
+                     Question <?php echo $number ?> of <?php echo $total ?>
                  </div>
                  <p class="question">
-                    What does PHP stand for?
+                    <?php echo $question['text']; ?>
                  </p>
                  <form method="post" action="process.php">
                  <ul>
-                    <li><input name="choice" type="radio" value="1" />PHP: Hypertext Preprocessor</li>
-                    <li><input name="choice" type="radio" value="2" />PHP: Private Home Page</li>
-                    <li><input name="choice" type="radio" value="3" />PHP: Personal Home Page</li>
-                    <li><input name="choice" type="radio" value="4" />PHP: Personal Hypertext Preprocessor</li>
+				 <?php while($row = $choices->fetch_assoc()): ?>
+					<li><input name="choice" type="radio" value="<?php echo $row['id']; ?>" /><?php echo $row['text']; ?></li>
+				 <?php endwhile; ?>
                  </ul>
                  <input type="submit" value="Submit" /> 
+				 <input type="hidden" name="number" value="<?php echo $number; ?>" />
                  </form>
             </div>
         </main>
