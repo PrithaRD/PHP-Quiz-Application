@@ -53,3 +53,27 @@ a.start{
     margin: 20px 0 10px 0;
 }
 
+input[type=text]{
+	border-radius: 4px;
+	width: 80%
+}
+
+input[type=number]{
+	border-radius: 4px;
+}
+
+input[type=submit]{
+	display: inline-block;
+    color: #666;
+    background: #f4f4f4;
+    border: 1px dotted #ccc;
+    padding: 6px 13px;
+}
+
+.success-msg{
+	background-color:#98fb98;
+	color:#006400;
+	border: 1px solid #006400;
+	border-radius: 4px;
+}
+
